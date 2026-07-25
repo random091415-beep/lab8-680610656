@@ -23,6 +23,7 @@
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.5.1",
     "nodemon": "^3.1.10",
+    "tsc-alias": "^1.9.1",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   }
