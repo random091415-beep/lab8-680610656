@@ -1,4 +1,14 @@
-# Lecture 18 - RESTful API (Part 3)
+# Lab 07 - Student API (API #1)
+
+### ป้อนข้อมูลนักศึกษา
+
+รหัส นศ.: 680610656
+
+ชื่อ-สกุล : กิตติภพ อินทำ
+
+Vercel URL :
+
+---
 
 ### Content
 
@@ -183,7 +193,7 @@ const token = jwt.sign(
     role: "ADMIN",
   },
   jwt_secret,
-  { expiresIn: "5m" }
+  { expiresIn: "5m" },
 );
 ```
 
@@ -261,7 +271,7 @@ import { type CustomRequest, type UserPayload } from "../libs/types.js";
 export const authenticateToken = (
   req: CustomRequest, // using a custom request
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   // 1. check Request if "authorization" header exists
   //    and container "Bearer ...JWT-Token..."
@@ -385,7 +395,7 @@ import { users } from "../db/db.js";
 export const checkRoleAdmin = (
   req: CustomRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   // 1. get "user payload" and "token" from (custom) request
   const payload = req.user;
@@ -423,7 +433,7 @@ import { users, reset_users } from "../db/db.js";
 export const checkRoles = (
   req: CustomRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   // 1. get "user payload" and "token" from (custom) request
   const payload = req.user;
@@ -467,7 +477,7 @@ router.get(
         error: err,
       });
     }
-  }
+  },
 );
 ```
 

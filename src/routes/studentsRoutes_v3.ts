@@ -10,7 +10,10 @@ import type { Student } from "../libs/types.js";
 import notFoundMiddleware from "../middlewares/notFoundMiddleware.js";
 
 // import database
-import { readDataFile, writeDataFile } from "../db/db_transactions.js";
+import {
+  readStudentDataFile,
+  writeStudentDataFile,
+} from "../db/db_transactions.js";
 
 const router = Router();
 
@@ -18,13 +21,13 @@ const router = Router();
 // get students (by program)
 router.get("/", async (req: Request, res: Response) => {
   try {
-    const students = await readDataFile();
+    const students = await readStudentDataFile();
 
     const program = req.query.program;
 
     if (program) {
       let filtered_students = students.filter(
-        (student) => student.program === program
+        (student) => student.program === program,
       );
       return res.json({
         success: true,
@@ -48,7 +51,7 @@ router.get("/", async (req: Request, res: Response) => {
 // GET /api/v2/students/{studentId}
 router.get("/:studentId", async (req: Request, res: Response) => {
   try {
-    const students = await readDataFile();
+    const students = await readStudentDataFile();
 
     const studentId = req.params.studentId;
     const result = zStudentId.safeParse(studentId);
@@ -61,7 +64,7 @@ router.get("/:studentId", async (req: Request, res: Response) => {
     }
 
     const foundIndex = students.findIndex(
-      (std: Student) => std.studentId === studentId
+      (std: Student) => std.studentId === studentId,
     );
 
     if (foundIndex === -1) {
@@ -88,7 +91,7 @@ router.get("/:studentId", async (req: Request, res: Response) => {
 // add a new student
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const students = await readDataFile();
+    const students = await readStudentDataFile();
 
     const body = req.body as Student;
 
@@ -103,7 +106,7 @@ router.post("/", async (req: Request, res: Response) => {
 
     //check duplicate studentId
     const found = students.find(
-      (student) => student.studentId === body.studentId
+      (student) => student.studentId === body.studentId,
     );
     if (found) {
       return res.status(400).json({
@@ -115,7 +118,7 @@ router.post("/", async (req: Request, res: Response) => {
     // add new student and write to DB
     const new_student = body;
     students.push(new_student);
-    await writeDataFile(students);
+    await writeStudentDataFile(students);
 
     // add response header 'Link'
     res.set("Link", `/students/${new_student.studentId}`);
@@ -138,7 +141,7 @@ router.post("/", async (req: Request, res: Response) => {
 // Update specified student
 router.put("/", async (req: Request, res: Response) => {
   try {
-    const students = await readDataFile();
+    const students = await readStudentDataFile();
 
     const body = req.body as Student;
 
@@ -153,7 +156,7 @@ router.put("/", async (req: Request, res: Response) => {
 
     //check duplicate studentId
     const foundIndex = students.findIndex(
-      (student) => student.studentId === body.studentId
+      (student) => student.studentId === body.studentId,
     );
 
     if (foundIndex === -1) {
@@ -165,7 +168,7 @@ router.put("/", async (req: Request, res: Response) => {
 
     // update student data
     students[foundIndex] = { ...students[foundIndex], ...body };
-    await writeDataFile(students);
+    await writeStudentDataFile(students);
 
     // add response header 'Link'
     res.set("Link", `/students/${body.studentId}`);
@@ -187,7 +190,7 @@ router.put("/", async (req: Request, res: Response) => {
 // DELETE /api/v2/students, body = {studentId}
 router.delete("/", async (req: Request, res: Response) => {
   try {
-    const students = await readDataFile();
+    const students = await readStudentDataFile();
 
     const body = req.body;
     const parseResult = zStudentId.safeParse(body.studentId);
@@ -201,7 +204,7 @@ router.delete("/", async (req: Request, res: Response) => {
     }
 
     const foundIndex = students.findIndex(
-      (std: Student) => std.studentId === body.studentId
+      (std: Student) => std.studentId === body.studentId,
     );
 
     console.log(foundIndex);
@@ -214,7 +217,7 @@ router.delete("/", async (req: Request, res: Response) => {
 
     // delete found student from array
     students.splice(foundIndex, 1);
-    await writeDataFile(students);
+    await writeStudentDataFile(students);
 
     res.json({
       success: true,

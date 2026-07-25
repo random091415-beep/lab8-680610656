@@ -20,7 +20,7 @@ router.get("/", (req: Request, res: Response) => {
 
     if (program) {
       let filtered_students = students.filter(
-        (student) => student.program === program
+        (student) => student.program === program,
       );
       return res.status(200).json({
         success: true,
@@ -55,7 +55,7 @@ router.get("/:studentId", (req: Request, res: Response) => {
     }
 
     const foundIndex = students.findIndex(
-      (std: Student) => std.studentId === studentId
+      (std: Student) => std.studentId === studentId,
     );
 
     if (foundIndex === -1) {
@@ -95,7 +95,7 @@ router.post("/", async (req: Request, res: Response) => {
 
     //check duplicate studentId
     const found = students.find(
-      (student) => student.studentId === body.studentId
+      (student) => student.studentId === body.studentId,
     );
     if (found) {
       return res.status(409).json({
@@ -142,7 +142,7 @@ router.put("/", (req: Request, res: Response) => {
 
     //check if studentId exists
     const foundIndex = students.findIndex(
-      (student) => student.studentId === body.studentId
+      (student) => student.studentId === body.studentId,
     );
 
     if (foundIndex === -1) {
@@ -187,7 +187,7 @@ router.delete("/", (req: Request, res: Response) => {
     }
 
     const foundIndex = students.findIndex(
-      (std: Student) => std.studentId === body.studentId
+      (std: Student) => std.studentId === body.studentId,
     );
 
     if (foundIndex === -1) {

@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const DATA_FILE_PATH = `${__dirname}/db_students.json`;
 
-export async function readDataFile(): Promise<Student[]> {
+export async function readStudentDataFile(): Promise<Student[]> {
   try {
     console.log(DATA_FILE_PATH);
     const data = await fs.readFile(DATA_FILE_PATH, {
@@ -27,7 +27,7 @@ export async function readDataFile(): Promise<Student[]> {
   }
 }
 
-export async function writeDataFile(data: Student[]): Promise<void> {
+export async function writeStudentDataFile(data: Student[]): Promise<void> {
   try {
     const jsonString = JSON.stringify(data, null, 2); // null, 2 for pretty printing
     await fs.writeFile(DATA_FILE_PATH, jsonString, { encoding: "utf8" });
